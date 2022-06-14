@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import products from "../products.json";
+import { initiateCheckout } from "./payments";
 
 const Home: NextPage = () => {
   return (
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
         <ul className={styles.grid}>
           {products.map((product, index) => (
             <li className={styles.card} key={`${product.title}${index}`}>
-              <a href="https://nextjs.org/docs">
+              <a href="#">
                 <Image
                   src={product.imageSrc}
                   alt={product.title}
@@ -36,6 +37,18 @@ const Home: NextPage = () => {
                 <p>£{product.price}</p>
                 <p>{product.description}</p>
               </a>
+              <p>
+                <button
+                  className={styles.button}
+                  onClick={() =>
+                    initiateCheckout({
+                      lineItems: [{ price: product.id, quantity: 1 }],
+                    })
+                  }
+                >
+                  Buy now
+                </button>
+              </p>
             </li>
           ))}
         </ul>
